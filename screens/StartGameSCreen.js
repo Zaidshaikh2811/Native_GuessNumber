@@ -1,17 +1,41 @@
-import { TextInput, View, StyleSheet } from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
+import { TextInput, View, StyleSheet, Alert } from "react-native";
+
+import { useState } from "react";
+import Colors from "../constants/colors";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 
-function StartGameSCreen() {
+function StartGameSCreen({ onPickNumber }) {
+    const [number, setNumber] = useState('')
+
+    const resetHandler = () => {
+        setNumber('')
+    }
+
+    const ResetChange = () => {
+        console.log(number);
+
+        const chosenNumber = parseInt(number);
+
+
+        if (isNaN(chosenNumber) || chosenNumber < 0 || chosenNumber > 99) {
+            Alert.alert("Invalid Number!!", "Please Check The Input Number", [{ text: "Okay", style: "destructive", onPress: resetHandler }]);
+            return;
+
+        }
+
+        onPickNumber(chosenNumber);
+    }
+
+
 
     return <View style={styles.container}>
 
-        <TextInput style={styles.numberInput} maxLength={2} keyboardType="number-pad" autoCapitalize="none"
+        <TextInput value={number} style={styles.numberInput} maxLength={2} keyboardType="number-pad" autoCapitalize="none" onChangeText={setNumber}
             autoCorrect={false} placeholder="15"></TextInput>
         <View style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 10 }}>
-
-            <PrimaryButton >Submit</PrimaryButton>
-            <PrimaryButton >Confirm</PrimaryButton>
+            <PrimaryButton onPress={resetHandler} >Reset</PrimaryButton>
+            <PrimaryButton onPress={ResetChange}>Confirm</PrimaryButton>
         </View>
 
     </View>
@@ -41,9 +65,9 @@ const styles = StyleSheet.create({
         marginHorizontal: "auto",
         textAlign: 'center',
         fontSize: 32,
-        borderBottomColor: "#ddb52f",
+        borderBottomColor: Colors.accent500,
         borderBottomWidth: 2,
-        color: "#ddb52f",
+        color: Colors.accent500,
         marginVertical: 8,
         fontWeight: 'bold',
 
