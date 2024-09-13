@@ -18,6 +18,7 @@ export default PrimaryButton;
 
 const style = StyleSheet.create({
     buttonOuterContainer: {
+
         borderRadius: 28,
         margin: 4,
         width: 150,
